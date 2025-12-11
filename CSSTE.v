@@ -55,7 +55,7 @@ module CSSTE (
   wire counter2_out;
   wire [31:0] counter_out;
 
-  Pipline_CPU U1 (
+  Pipeline_CPU U1 (
       .clk(Clk_CPU),
       .rst(rst),
       .Data_in(Data_in),
