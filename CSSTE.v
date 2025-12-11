@@ -71,7 +71,7 @@ module CSSTE (
       .Data_out_WB(Data_out_WB)
   );
 
-  ROM_D_0 U2 (
+  ROM_D U2 (
       .a  (PC[11:2]),
       .spo(inst)
   );

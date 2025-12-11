@@ -1,7 +1,7 @@
 module Pipeline_CPU (
     input        clk,
     input        rst,
-    input [31:0] Inst_IF,
+    input [31:0] inst_IF,
     input [31:0] Data_in,
 
     output [31:0] Addr_out,
@@ -14,9 +14,6 @@ module Pipeline_CPU (
     output        MemRW_Mem,
     output        MemRW_EX
 );
-
-  //Instruction_Fetch
-  wire [31:0] PC_out_IF;
 
   //IF_reg_ID
   wire        valid_IFID;
@@ -65,7 +62,6 @@ module Pipeline_CPU (
   wire        valid_out_IDEX;
 
   //Execute
-  wire [31:0] PC_out_EX;
   wire [31:0] PC4_out_EX;
   wire        zero_out_EX;
   wire [31:0] ALU_out_EX;
@@ -102,9 +98,6 @@ module Pipeline_CPU (
   wire [ 1:0] MemtoReg_out_MemWB;
   wire        RegWrite_out_MemWB;
 
-  //Write_Back
-  wire [31:0] Data_out_WB;
-
   //others
   assign PC_out_ID = PC_out_IFID;
   assign inst_ID   = inst_out_IFID;
@@ -113,7 +106,7 @@ module Pipeline_CPU (
   assign MemRW_Mem = MemRW_out_EXMem;
   assign MemRW_EX  = MemRW_out_IDEX;
 
-  Instruction_Fetch Pipeline_IF (
+  Pipeline_IF Instruction_Fetch (
       .clk_IF  (clk),
       .rst_IF  (rst),
       .en_IF   (en_IF),
@@ -128,7 +121,7 @@ module Pipeline_CPU (
       .rst_IFID    (rst),
       .en_IFID     (en_IFID),
       .PC_in_IFID  (PC_out_IF),
-      .Inst_in_IFID(Inst_IF),
+      .inst_in_IFID(inst_IF),
       .NOP_IFID    (NOP_IFID),
 
       .PC_out_IFID  (PC_out_IFID),
@@ -136,7 +129,7 @@ module Pipeline_CPU (
       .valid_IFID   (valid_IFID)
   );
 
-  Instruction_Decoder Pipeline_ID (
+  Pipeline_ID Instruction_Decoder (
       .clk_ID        (clk),
       .rst_ID        (rst),
       .RegWrite_in_ID(RegWrite_out_MemWB),
@@ -188,7 +181,7 @@ module Pipeline_CPU (
       .NOP_IFID(NOP_IFID)
   );
 
-  ID_reg_EX ID_reg_EX (
+  ID_reg_Ex ID_reg_Ex (
       .clk_IDEX           (clk),
       .rst_IDEX           (rst),
       .en_IDEX            (1'b0),
@@ -197,7 +190,7 @@ module Pipeline_CPU (
       .PC_in_IDEX         (PC_out_IFID),
       .Inst_in_IDEX       (inst_out_IFID),
       .Rd_adder_out_IDEX  (Rd_addr_out_ID),
-      .Rs1_in_IDEX        (Rs1_out_ID),
+      .Rs1_in_IDEx        (Rs1_out_ID),
       .Rs2_in_IDEX        (Rs2_out_ID),
       .Imm_in_IDEX        (Imm_out_ID),
       .ALUSrc_B_in_IDEX   (ALUSrc_B_ID),
@@ -226,7 +219,7 @@ module Pipeline_CPU (
       .valid_out_IDEX      (valid_out_IDEX)
   );
 
-  Execute Pipeline_Ex (
+  Pipeline_Ex Execute (
       .PC_in_EX         (PC_out_IDEX),
       .Rs1_in_EX        (Rs1_out_IDEX),
       .Rs2_in_EX        (Rs2_out_IDEX),
@@ -241,7 +234,7 @@ module Pipeline_CPU (
       .Rs2_out_EX (Rs2_out_EX)
   );
 
-  EX_reg_Mem EX_reg_Mem (
+  Ex_reg_Mem Ex_reg_Mem (
       .clk_EXMem        (clk),
       .rst_EXMem        (rst),
       .en_EXMem         (1'b0),
@@ -278,7 +271,7 @@ module Pipeline_CPU (
       .RegWrite_out_EXMem(RegWrite_out_EXMem)
   );
 
-  Memory_Access Pipeline_Mem (
+  Pipeline_Mem Memory_Access (
       .zero_in_Mem   (zero_out_EXMem),
       .Branch_in_Mem (Branch_out_EXMem),
       .BranchN_in_Mem(BranchN_out_EXMem),
@@ -312,7 +305,7 @@ module Pipeline_CPU (
       .RegWrite_out_MemWB (RegWrite_out_MemWB)
   );
 
-  Write_Back Pipeline_WB (
+  Pipeline_WB Write_Back (
       .PC4_in_WB     (PC4_out_MemWB),
       .ALU_in_WB     (ALU_out_MemWB),
       .DMem_data_WB  (DMem_data_out_MemWB),
