@@ -44,7 +44,7 @@ module Pipeline_CPU (
   wire        NOP_IDEX;
   wire        NOP_IFID;
 
-  //ID_reg_EX
+  //ID_reg_Ex
   wire [31:0] PC_out_IDEX;
   wire [31:0] Inst_out_IDEX;
   wire [ 4:0] Rd_adder_out_IDEX;
@@ -184,12 +184,12 @@ module Pipeline_CPU (
   ID_reg_Ex ID_reg_Ex (
       .clk_IDEX           (clk),
       .rst_IDEX           (rst),
-      .en_IDEX            (1'b0),
+      .en_IDEX            (1'b1),
       .NOP_IDEX           (NOP_IDEX),
       .valid_in_IDEX      (valid_IFID),
       .PC_in_IDEX         (PC_out_IFID),
       .Inst_in_IDEX       (inst_out_IFID),
-      .Rd_adder_out_IDEX  (Rd_addr_out_ID),
+      .Rd_adder_IDEX      (Rd_addr_out_ID),
       .Rs1_in_IDEx        (Rs1_out_ID),
       .Rs2_in_IDEX        (Rs2_out_ID),
       .Imm_in_IDEX        (Imm_out_ID),
@@ -237,7 +237,7 @@ module Pipeline_CPU (
   Ex_reg_Mem Ex_reg_Mem (
       .clk_EXMem        (clk),
       .rst_EXMem        (rst),
-      .en_EXMem         (1'b0),
+      .en_EXMem         (1'b1),
       .PC_imm_EXMem     (PC_out_EX),
       .PC4_in_EXMem     (PC4_out_EX),
       .PC_in_EXMem      (PC_out_IDEX),
@@ -283,7 +283,7 @@ module Pipeline_CPU (
   Mem_reg_WB Mem_reg_WB (
       .clk_MemWB        (clk),
       .rst_MemWB        (rst),
-      .en_MemWB         (1'b0),
+      .en_MemWB         (1'b1),
       .PC4_in_MemWB     (PC4_out_EXMem),
       .PC_in_MemWB      (PC_out_EXMem),
       .Inst_in_MemWB    (Inst_out_EXMem),
