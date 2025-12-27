@@ -8,6 +8,7 @@ module SCPU_ctrl (
     output reg [1:0] MemtoReg,
     output reg Jump,
     output reg Branch,
+    output reg BranchN,
     output reg RegWrite,
     output reg MemRW,
     output reg [2:0] ALU_Control,
@@ -22,6 +23,7 @@ module SCPU_ctrl (
     MemtoReg    = 2'b00;
     Jump        = 1'b0;
     Branch      = 1'b0;
+    BranchN     = 1'b0;
     RegWrite    = 1'b0;
     MemRW       = 1'b0;
     ALU_Control = 3'b000;
@@ -80,7 +82,8 @@ module SCPU_ctrl (
         RegWrite = 1'b0;
         ALUSrc_B = 1'b0;
         MemRW = 1'b0;
-        Branch = 1'b1;
+        Branch = (Fun3 == 3'b000) ? 1'b1 : 1'b0;
+        BranchN = (Fun3 == 3'b001) ? 1'b1 : 1'b0;
         ImmSel = 2'b10;  // B-type imm
         ALU_Control = 3'b110;  // ALU SUB
       end
@@ -93,34 +96,6 @@ module SCPU_ctrl (
         Jump     = 1'b1;
         ImmSel   = 2'b11;  // J-type imm
       end
-
-      // 5'b11001: begin  // JALR
-      //   RegWrite    = 1'b1;
-      //   ALUSrc_B    = 1'b1;  // uses immediate for target calculation
-      //   MemRW       = 1'b0;
-      //   MemtoReg    = 1'b0;
-      //   Jump        = 1'b1;
-      //   ImmSel      = 2'b00;  // I-type imm (jalr)
-      //   ALU_Control = 3'b000;
-      // end
-
-      // 5'b01101: begin  // LUI
-      //   RegWrite = 1'b1;
-      //   ALUSrc_B = 1'b1;
-      //   MemRW    = 1'b0;
-      //   MemtoReg = 1'b0;
-      //   ImmSel   = 2'b11; // U-type imm
-      //   ALU_Control = 3'b000;
-      // end
-
-      // 5'b00101: begin  // AUIPC
-      //   RegWrite = 1'b1;
-      //   ALUSrc_B = 1'b1;
-      //   MemRW    = 1'b0;
-      //   MemtoReg = 1'b0;
-      //   ImmSel   = 2'b11; // U-type imm
-      //   ALU_Control = 3'b000;
-      // end
 
       default: begin
         // keep defaults for unsupported opcodes

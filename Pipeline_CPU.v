@@ -47,7 +47,7 @@ module Pipeline_CPU (
   //ID_reg_Ex
   wire [31:0] PC_out_IDEX;
   wire [31:0] Inst_out_IDEX;
-  wire [ 4:0] Rd_adder_out_IDEX;
+  wire [ 4:0] Rd_addr_out_IDEX;
   wire [31:0] Rs1_out_IDEX;
   wire [31:0] Rs2_out_IDEX;
   wire [31:0] Imm_out_IDEX;
@@ -92,7 +92,7 @@ module Pipeline_CPU (
   wire [31:0] PC_out_MemWB;
   wire [31:0] Inst_out_MemWB;
   wire        valid_out_MemWB;
-  wire [ 4:0] Rd_adder_out_MemWB;
+  wire [ 4:0] Rd_addr_out_MemWB;
   wire [31:0] ALU_out_MemWB;
   wire [31:0] DMem_data_out_MemWB;
   wire [ 1:0] MemtoReg_out_MemWB;
@@ -135,7 +135,7 @@ module Pipeline_CPU (
       .RegWrite_in_ID(RegWrite_out_MemWB),
       .Rd_addr_ID    (Rd_addr_out_MemWB),
       .Wt_data_ID    (Data_out_WB),
-      .Inst_in_ID    (Inst_out_IFID),
+      .Inst_in_ID    (inst_out_IFID),
 
       .Rd_addr_out_ID (Rd_addr_out_ID),
       .Rs1_out_ID     (Rs1_out_ID),
@@ -162,7 +162,7 @@ module Pipeline_CPU (
       .RegWrite_out_IDEX (RegWrite_out_IDEX),
       .Rd_addr_out_IDEX  (Rd_addr_out_IDEX),
       .RegWrite_out_EXMem(RegWrite_out_EXMem),
-      .Rd_adder_out_EXMem(Rd_adder_out_EXMem),
+      .Rd_addr_out_EXMem(Rd_addr_out_EXMem),
       .Rs1_used          (Rs1_used),
       .Rs2_used          (Rs2_used),
       .Branch_ID         (Branch_ID),
@@ -189,8 +189,8 @@ module Pipeline_CPU (
       .valid_in_IDEX      (valid_IFID),
       .PC_in_IDEX         (PC_out_IFID),
       .Inst_in_IDEX       (inst_out_IFID),
-      .Rd_adder_IDEX      (Rd_addr_out_ID),
-      .Rs1_in_IDEx        (Rs1_out_ID),
+      .Rd_addr_IDEX      (Rd_addr_out_ID),
+      .Rs1_in_IDEX        (Rs1_out_ID), //已做大小写修改
       .Rs2_in_IDEX        (Rs2_out_ID),
       .Imm_in_IDEX        (Imm_out_ID),
       .ALUSrc_B_in_IDEX   (ALUSrc_B_ID),
@@ -204,7 +204,7 @@ module Pipeline_CPU (
 
       .PC_out_IDEX         (PC_out_IDEX),
       .Inst_out_IDEX       (Inst_out_IDEX),
-      .Rd_adder_out_IDEX   (Rd_adder_out_IDEX),
+      .Rd_addr_out_IDEX   (Rd_addr_out_IDEX),
       .Rs1_out_IDEX        (Rs1_out_IDEX),
       .Rs2_out_IDEX        (Rs2_out_IDEX),
       .Imm_out_IDEX        (Imm_out_IDEX),
@@ -243,7 +243,7 @@ module Pipeline_CPU (
       .PC_in_EXMem      (PC_out_IDEX),
       .valid_in_EXMem   (valid_out_IDEX),
       .Inst_in_EXMem    (Inst_out_IDEX),
-      .Rd_addr_EXMem    (Rd_adder_out_IDEX),
+      .Rd_addr_EXMem    (Rd_addr_out_IDEX),
       .zero_in_EXMem    (zero_out_EX),
       .ALU_in_EXMem     (ALU_out_EX),
       .Rs2_in_EXMem     (Rs2_out_EX),
@@ -298,7 +298,7 @@ module Pipeline_CPU (
       .PC_out_MemWB       (PC_out_MemWB),
       .Inst_out_MemWB     (Inst_out_MemWB),
       .valid_out_MemWB    (valid_out_MemWB),
-      .Rd_adder_out_MemWB (Rd_adder_out_MemWB),
+      .Rd_addr_out_MemWB (Rd_addr_out_MemWB),
       .ALU_out_MemWB      (ALU_out_MemWB),
       .DMem_data_out_MemWB(DMem_data_out_MemWB),
       .MemtoReg_out_MemWB (MemtoReg_out_MemWB),

@@ -14,13 +14,13 @@ module CSSTE (
 );
 
   // U1
-  wire MemRW_Men;
-  wire MemRW_Ex;
+  wire MemRW_Mem;
+  wire MemRW_EX;
   wire [31:0] Addr_out;
   wire [31:0] Data_out;
   wire [31:0] PC;
   wire [31:0] PC_out_ID;
-  wire [31:0] PC_out_Ex;
+  wire [31:0] PC_out_EX;
   wire [31:0] inst_ID;
   wire [31:0] Data_out_WB;
   // U2
@@ -60,13 +60,13 @@ module CSSTE (
       .rst(rst),
       .Data_in(Data_in),
       .inst_IF(inst),
-      .MemRW_Men(MemRW_Men),
-      .MemRW_Ex(MemRW_Ex),
+      .MemRW_Mem(MemRW_Mem),
+      .MemRW_EX(MemRW_EX),
       .Addr_out(Addr_out),
       .Data_out(Data_out),
       .PC_out_IF(PC),
       .PC_out_ID(PC_out_ID),
-      .PC_out_Ex(PC_out_Ex),
+      .PC_out_EX(PC_out_EX),
       .inst_ID(inst_ID),
       .Data_out_WB(Data_out_WB)
   );
@@ -89,7 +89,7 @@ module CSSTE (
       .rst(rst),
       .BTN(BTN_OK),
       .SW(SW_OK),
-      .mem_w(MemRW_Men),
+      .mem_w(MemRW_Mem),
       .Cpu_data2bus(Data_out),
       .addr_bus(Addr_out),
       .ram_data_out(ram_data_out),
@@ -201,9 +201,9 @@ module CSSTE (
       .inst_IF(inst),
       .PC_ID(PC_out_ID),
       .inst_ID(inst_ID),
-      .PC_Ex(PC_out_Ex),
-      .MemRW_Ex(MemRW_Ex),
-      .MemRW_Men(MemRW_Men),
+      .PC_Ex(PC_out_EX),
+      .MemRW_Ex(MemRW_EX),
+      .MemRW_Mem(MemRW_Mem),
       .Data_out(Data_out),
       .Addr_out(Addr_out),
       .Data_out_WB(Data_out_WB),
